@@ -11,7 +11,7 @@ def get_hash_path(journal_id):
     id_hash = hashlib.sha1(str(journal_id).encode('utf-8')).hexdigest()
     hash_path = [id_hash[i:i + 2] for i in range(0, 11, 2)]
 
-    return os.path.join(MACRO_SYS_JOURNAL_PATH, *hash_path, f'{journal_id}.txt')
+    return os.path.join(MACRO_SYS_JOURNAL_PATH, *(hash_path + ['%d.txt' % (journal_id,)]))
 
 
 def journal_file_exists(journal_id):
@@ -32,7 +32,7 @@ def main(connection_string):
 
             total += 1
 
-        print(f'{missing} of {total} missing', file=sys.stderr)
+        print('%d of %d missing' % (missing, total), file=sys.stderr)
 
 
 if __name__ == '__main__':
